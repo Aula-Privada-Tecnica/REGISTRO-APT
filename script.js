@@ -29,7 +29,6 @@ document.addEventListener('copy', function(e) {
     e.preventDefault();
 });
 
-
 const officeTools = [
     { value: "Excel", text: "Excel (Avanzado)" },
     { value: "Word", text: "Word & PowerPoint" },
@@ -139,23 +138,54 @@ function checkLearningType() {
     validateForm(); 
 }
 
-function validatePhone() {
-    const phonePattern = /^\+502\s?[0-9]{8}$/; 
-    const value = telefonoInput.value.trim();
-
-    if (value === "") {
-        phoneError.textContent = "";
-        return true;
-    } else if (!phonePattern.test(value)) {
-        phoneError.textContent = "¡Error de Navegación! Sólo se permite el código de país de Guatemala (+502).";
-        return false;
-    } else {
-        phoneError.textContent = "";
-        return true;
+function handlePhoneInput() {
+    let value = telefonoInput.value;
+    
+    let digits = value.replace(/\D/g, ''); 
+    
+    if (digits.startsWith('502')) {
+        digits = digits.substring(3);
     }
+
+    if (digits.length > 8) {
+        digits = digits.substring(0, 8);
+    }
+    
+    let formattedDigits = digits;
+    if (digits.length > 4) {
+        formattedDigits = digits.substring(0, 4) + '-' + digits.substring(4);
+    }
+    
+    telefonoInput.value = '+502 ' + formattedDigits;
+
+    validatePhone();
 }
 
-telefonoInput.addEventListener('input', validatePhone);
+function validatePhone() {
+    const phonePattern = /^\+502\s[0-9]{4}-[0-9]{4}$/; 
+    const value = telefonoInput.value.trim();
+    
+    if (value.length <= 5) { 
+        phoneError.textContent = "";
+        return true; 
+    } 
+    
+    if (!phonePattern.test(value)) {
+        phoneError.textContent = "¡Error de Navegación! El número debe tener 8 dígitos en formato XXXX-XXXX.";
+        return false;
+    } 
+    
+    phoneError.textContent = "";
+    return true;
+}
+
+telefonoInput.addEventListener('input', handlePhoneInput);
+telefonoInput.addEventListener('focus', function() {
+    if (!telefonoInput.value.startsWith('+502')) {
+        telefonoInput.value = '+502 ';
+    }
+});
+
 
 function validateDate() {
     const minDate = new Date('2026-06-01T00:00:00');
@@ -197,6 +227,7 @@ function resetForm() {
     updateTools(); 
     checkLearningType(); 
     updateFullEmail(); 
+    telefonoInput.value = '+502 ';
 }
 
 function showTempSuccessMessage(duration = 5000) {
@@ -256,10 +287,8 @@ form.addEventListener('submit', function(event) {
     .catch(error => {
         console.error('Error durante el envío del formulario:', error);
         
-
         resetForm(); 
         showTempSuccessMessage(5000); 
-
     });
 });
 
@@ -270,4 +299,6 @@ window.onload = function() {
     updateFullEmail();
 
     fechaInicioInput.min = "2026-06-01";
+    
+    telefonoInput.value = '+502 ';
 }

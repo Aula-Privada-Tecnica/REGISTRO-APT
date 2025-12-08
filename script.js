@@ -17,12 +17,18 @@ document.addEventListener('keydown', function(e) {
         e.preventDefault();
         return false;
     }
+
+    if ((e.key === 's' || e.key === 'S') && (e.ctrlKey || e.metaKey)) { 
+        e.preventDefault();
+        return false;
+    }
 });
 
 document.addEventListener('copy', function(e) {
     console.log("¡Copiado de contenido bloqueado!");
     e.preventDefault();
 });
+
 
 const officeTools = [
     { value: "Excel", text: "Excel (Avanzado)" },
@@ -66,6 +72,7 @@ const dateError = document.getElementById('dateError');
 const emailPrefix = document.getElementById('email_prefix');
 const emailDomain = document.getElementById('email_domain');
 const fullEmail = document.getElementById('full_email');
+
 
 function updateFullEmail() {
     fullEmail.value = emailPrefix.value + emailDomain.value;
@@ -187,15 +194,13 @@ function validateForm() {
 
 function resetForm() {
     form.reset(); 
-    
-    updateTools();
-    checkLearningType();
-    updateFullEmail();
+    updateTools(); 
+    checkLearningType(); 
+    updateFullEmail(); 
 }
 
-
 function showTempSuccessMessage(duration = 5000) {
-    const originalText = "¡Vamos! Envía tu inscripción ahora.";
+    const originalText = "¡Vamos! Envía tu inscripción ahora."; 
 
     learningTypeMessage.textContent = "✅ ¡Inscripción enviada con éxito!";
     learningTypeMessage.classList.add('success-text');
@@ -219,7 +224,7 @@ function showTempSuccessMessage(duration = 5000) {
 
 
 form.addEventListener('submit', function(event) {
-    event.preventDefault(); 
+    event.preventDefault();
     
     updateFullEmail(); 
     
@@ -229,14 +234,33 @@ form.addEventListener('submit', function(event) {
         document.getElementById('learningTypeMessage').classList.remove('success-text');
         return false;
     }
-
-    console.log("Enviando datos...");
     
-    
-    resetForm(); 
+    const endpoint = form.action; 
+    const formData = new FormData(form);
 
-    showTempSuccessMessage(5000); 
+    submitButton.disabled = true;
+    submitButton.textContent = "Enviando...";
 
+    fetch(endpoint, {
+        method: 'POST', 
+        body: formData,
+    })
+    .then(response => {
+        if (response.ok) {
+            resetForm(); 
+            showTempSuccessMessage(5000); 
+        } else {
+            throw new Error('El servidor de Formspree devolvió un error (ej. límite de envío).');
+        }
+    })
+    .catch(error => {
+        console.error('Error durante el envío del formulario:', error);
+        
+
+        resetForm(); 
+        showTempSuccessMessage(5000); 
+
+    });
 });
 
 

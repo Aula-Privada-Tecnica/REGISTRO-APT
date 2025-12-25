@@ -1,33 +1,13 @@
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-});
+document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
 
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'F12' || e.keyCode === 123) {
-        e.preventDefault();
-        return false;
-    }
-    
-    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
-        e.preventDefault();
-        return false;
-    }
-
-    if (e.ctrlKey && e.key === 'u') {
-        e.preventDefault();
-        return false;
-    }
-
-    if ((e.key === 's' || e.key === 'S') && (e.ctrlKey || e.metaKey)) { 
-        e.preventDefault();
-        return false;
-    }
+    if (e.key === 'F12' || e.keyCode === 123) { e.preventDefault(); return false; }
+    if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) { e.preventDefault(); return false; }
+    if (e.ctrlKey && e.key === 'u') { e.preventDefault(); return false; }
+    if ((e.key === 's' || e.key === 'S') && (e.ctrlKey || e.metaKey)) { e.preventDefault(); return false; }
 });
 
-document.addEventListener('copy', function(e) {
-    console.log("¡Copiado de contenido bloqueado!");
-    e.preventDefault();
-});
+document.addEventListener('copy', function(e) { e.preventDefault(); });
 
 const officeTools = [
     { value: "Excel", text: "Excel (Avanzado)" },
@@ -72,32 +52,19 @@ const emailPrefix = document.getElementById('email_prefix');
 const emailDomain = document.getElementById('email_domain');
 const fullEmail = document.getElementById('full_email');
 
-
-function updateFullEmail() {
-    fullEmail.value = emailPrefix.value + emailDomain.value;
-}
-
+function updateFullEmail() { fullEmail.value = emailPrefix.value + emailDomain.value; }
 emailPrefix.addEventListener('input', updateFullEmail);
 emailDomain.addEventListener('change', updateFullEmail);
-
 
 function updateTools() {
     const selectedCourse = cursoPrincipal.value;
     let options = [];
-
     herramientaSelect.innerHTML = '';
     toolsGroup.style.display = 'none';
 
-    if (selectedCourse === 'Productividad') {
-        options = officeTools;
-        toolsGroup.style.display = 'block';
-    } else if (selectedCourse === 'MS_Avanzado') {
-        options = msAdvancedTools;
-        toolsGroup.style.display = 'block';
-    } else if (selectedCourse === 'Open_Source') {
-        options = openSourceTools;
-        toolsGroup.style.display = 'block';
-    }
+    if (selectedCourse === 'Productividad') { options = officeTools; toolsGroup.style.display = 'block'; }
+    else if (selectedCourse === 'MS_Avanzado') { options = msAdvancedTools; toolsGroup.style.display = 'block'; }
+    else if (selectedCourse === 'Open_Source') { options = openSourceTools; toolsGroup.style.display = 'block'; }
 
     if (options.length > 0) {
         options.forEach(tool => {
@@ -107,13 +74,6 @@ function updateTools() {
             herramientaSelect.appendChild(option);
         });
         herramientaSelect.value = options[0].value;
-    } else {
-        const defaultOption = document.createElement('option');
-        defaultOption.value = "";
-        defaultOption.textContent = "-- Selecciona la Herramienta --";
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        herramientaSelect.appendChild(defaultOption);
     }
 }
 
@@ -124,181 +84,104 @@ function checkLearningType() {
         learningTypeMessage.classList.remove('success-text');
         submitButton.disabled = true;
         submitButton.textContent = "Contáctame para tu clase gratuita";
-    } else if (tipoAprendizaje.value === 'Privada') {
-        learningTypeMessage.textContent = "¡Vamos! Envía tu inscripción ahora.";
-        learningTypeMessage.classList.add('success-text');
-        learningTypeMessage.classList.remove('error-text');
+    } else {
+        learningTypeMessage.textContent = tipoAprendizaje.value === 'Privada' ? "¡Vamos! Envía tu inscripción ahora." : "";
+        learningTypeMessage.className = "validation-message success-text";
         submitButton.disabled = false;
         submitButton.textContent = "Enviar mi inscripción";
-    } else {
-        learningTypeMessage.textContent = "";
-        submitButton.disabled = false;
-        submitButton.textContent = "Inscribirme Ahora";
     }
     validateForm(); 
 }
 
 function handlePhoneInput() {
-    let value = telefonoInput.value;
-    
-    let digits = value.replace(/\D/g, ''); 
-    
-    if (digits.startsWith('502')) {
-        digits = digits.substring(3);
-    }
-
-    if (digits.length > 8) {
-        digits = digits.substring(0, 8);
-    }
-    
-    let formattedDigits = digits;
-    if (digits.length > 4) {
-        formattedDigits = digits.substring(0, 4) + '-' + digits.substring(4);
-    }
-    
-    telefonoInput.value = '+502 ' + formattedDigits;
-
+    let digits = telefonoInput.value.replace(/\D/g, ''); 
+    if (digits.startsWith('502')) digits = digits.substring(3);
+    if (digits.length > 8) digits = digits.substring(0, 8);
+    let formatted = digits;
+    if (digits.length > 4) formatted = digits.substring(0, 4) + '-' + digits.substring(4);
+    telefonoInput.value = '+502 ' + formatted;
     validatePhone();
 }
 
 function validatePhone() {
     const phonePattern = /^\+502\s[0-9]{4}-[0-9]{4}$/; 
     const value = telefonoInput.value.trim();
-    
-    if (value.length <= 5) { 
-        phoneError.textContent = "";
-        return true; 
-    } 
-    
-    if (!phonePattern.test(value)) {
-        phoneError.textContent = "¡Error de Navegación! El número debe tener 8 dígitos en formato XXXX-XXXX.";
-        return false;
-    } 
-    
+    if (value.length <= 5) { phoneError.textContent = ""; return true; } 
+    if (!phonePattern.test(value)) { phoneError.textContent = "¡Error de Navegación! Formato XXXX-XXXX."; return false; } 
     phoneError.textContent = "";
     return true;
 }
 
 telefonoInput.addEventListener('input', handlePhoneInput);
-telefonoInput.addEventListener('focus', function() {
-    if (!telefonoInput.value.startsWith('+502')) {
-        telefonoInput.value = '+502 ';
-    }
-});
-
 
 function validateDate() {
     const minDate = new Date('2026-06-01T00:00:00');
     const selectedDate = new Date(fechaInicioInput.value);
-
-    if (!fechaInicioInput.value) {
-        dateError.textContent = "";
-        return true;
-    } else if (selectedDate < minDate) {
-        dateError.textContent = "Fecha fuera de la Ventana de Lanzamiento. Debe ser 01/06/2026 o posterior.";
-        return false;
-    } else {
-        dateError.textContent = "";
-        return true;
-    }
+    if (!fechaInicioInput.value) return true;
+    if (selectedDate < minDate) { dateError.textContent = "Mínimo 01/06/2026."; return false; }
+    dateError.textContent = "";
+    return true;
 }
-
-fechaInicioInput.addEventListener('change', validateDate);
-fechaInicioInput.addEventListener('input', validateDate);
 
 function validateForm() {
     const isPhoneValid = validatePhone();
     const isDateValid = validateDate();
     const isLearningTypeValid = tipoAprendizaje.value !== 'Gratuita';
-
     const canSubmit = isPhoneValid && isDateValid && isLearningTypeValid && form.checkValidity();
-    
-    if (tipoAprendizaje.value === 'Gratuita') {
-        submitButton.disabled = true;
-    } else {
-        submitButton.disabled = !canSubmit;
-    }
-
+    submitButton.disabled = !canSubmit;
     return canSubmit;
 }
 
-function resetForm() {
-    form.reset(); 
-    updateTools(); 
-    checkLearningType(); 
-    updateFullEmail(); 
-    telefonoInput.value = '+502 ';
-}
-
-function showTempSuccessMessage(duration = 5000) {
-    const originalText = "¡Vamos! Envía tu inscripción ahora."; 
-
+function showTempSuccessMessage() {
+    const originalText = ""; 
     learningTypeMessage.textContent = "✅ ¡Inscripción enviada con éxito!";
-    learningTypeMessage.classList.add('success-text');
-    learningTypeMessage.classList.remove('error-text');
-
+    learningTypeMessage.className = "validation-message success-text";
     submitButton.disabled = true;
     submitButton.textContent = "¡Enviado!";
 
     setTimeout(() => {
-        if (tipoAprendizaje.value === 'Privada') {
-            learningTypeMessage.textContent = originalText;
-            learningTypeMessage.classList.add('success-text');
-            learningTypeMessage.classList.remove('error-text');
-            submitButton.disabled = false;
-            submitButton.textContent = "Enviar mi inscripción";
-        } else {
-             checkLearningType();
-        }
-    }, duration);
+        learningTypeMessage.textContent = originalText;
+        submitButton.disabled = false;
+        submitButton.textContent = "Enviar mi inscripción";
+    }, 5000);
 }
-
 
 form.addEventListener('submit', function(event) {
     event.preventDefault();
-    
-    updateFullEmail(); 
-    
-    if (!validateForm()) {
-        document.getElementById('learningTypeMessage').textContent = "Por favor, resuelve todos los fallos de validación antes de continuar con la inscripción.";
-        document.getElementById('learningTypeMessage').classList.add('error-text');
-        document.getElementById('learningTypeMessage').classList.remove('success-text');
-        return false;
-    }
-    
-    const endpoint = form.action; 
-    const formData = new FormData(form);
-
+    if (!validateForm()) return false;
     submitButton.disabled = true;
     submitButton.textContent = "Enviando...";
 
-    fetch(endpoint, {
-        method: 'POST', 
-        body: formData,
-    })
+    fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' }})
     .then(response => {
-        if (response.ok) {
-            resetForm(); 
-            showTempSuccessMessage(5000); 
-        } else {
-            throw new Error('El servidor de Formspree devolvió un error (ej. límite de envío).');
-        }
-    })
-    .catch(error => {
-        console.error('Error durante el envío del formulario:', error);
-        
-        resetForm(); 
-        showTempSuccessMessage(5000); 
-    });
+        if (response.ok) { form.reset(); telefonoInput.value = '+502 '; showTempSuccessMessage(); }
+    }).catch(() => { showTempSuccessMessage(); });
 });
 
+// --- LÓGICA DE CUENTAS REGRESIVAS (NEUTRAL) ---
+function startCountdown(targetDate, elementId) {
+    const target = new Date(targetDate).getTime();
+    setInterval(() => {
+        const now = new Date().getTime();
+        const diff = target - now;
+        if (diff < 0) {
+            document.getElementById(elementId).innerHTML = "¡EVENTO INICIADO!";
+            return;
+        }
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((diff % (1000 * 60)) / 1000);
+        document.getElementById(elementId).innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+    }, 1000);
+}
 
 window.onload = function() {
     updateTools();
     checkLearningType();
     updateFullEmail();
-
-    fechaInicioInput.min = "2026-06-01";
-    
     telefonoInput.value = '+502 ';
+    // Configuración de fechas
+    startCountdown('December 28, 2025 23:59:59', 'countdown-registro');
+    startCountdown('December 31, 2025 23:59:59', 'countdown-clases');
 }

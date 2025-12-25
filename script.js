@@ -182,6 +182,7 @@ window.onload = function() {
     updateFullEmail();
     telefonoInput.value = '+502 ';
     // Configuración de fechas
-    startCountdown('December 28, 2025 23:59:59', 'countdown-registro');
-    startCountdown('December 31, 2025 23:59:59', 'countdown-clases');
+    startCountdown('December 25, 2025 20:59:59', 'countdown-registro');
+    startCountdown('December 28, 2025 13:59:59', 'countdown-clases');
 }
+

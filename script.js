@@ -128,7 +128,7 @@ function startCountdown(targetDate, elementId) {
         const element = document.getElementById(elementId);
         if (!element) return;
         if (diff <= 0) {
-            element.innerHTML = "FINALIZADO";
+            element.innerHTML = "INICIADO";
             if (elementId === 'countdown-registro') lockFormByTime();
             clearInterval(interval);
             return;
@@ -185,3 +185,4 @@ window.onload = function() {
     startCountdown('December 25, 2025 20:00:00', 'countdown-registro');
     startCountdown('December 28, 2025 13:00:00', 'countdown-clases');
 }
+

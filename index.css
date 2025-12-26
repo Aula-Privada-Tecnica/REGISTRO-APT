@@ -11,32 +11,41 @@ html, body {
     --color-text-dark: #333;
     --color-success: #00b300;
     --color-error: #ff4d4d;
+    --color-warning-red: #ff3333;
 }
 
 body {
     font-family: tahoma;
     background-color: var(--color-star-light);
-    background-size: cover; 
-    background-attachment: fixed;
-    background-position: center;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
     color: var(--color-text-dark);
-    overflow-x: hidden;
-    padding-top: 0; 
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
 }
 
+/* --- ANIMACIÓN DE ENROJECIMIENTO (PULSO) --- */
+@keyframes warningPulse {
+    0% { background-color: #f5f8fb; box-shadow: 0 0 0px rgba(255, 0, 0, 0); }
+    50% { background-color: #ffebeb; box-shadow: 0 0 10px rgba(255, 51, 51, 0.4); border-color: var(--color-warning-red); }
+    100% { background-color: #f5f8fb; box-shadow: 0 0 0px rgba(255, 0, 0, 0); }
+}
+
+/* Estado de bloqueo aplicado a las celdas */
+.locked-mode input, .locked-mode select {
+    animation: warningPulse 2s infinite ease-in-out;
+    cursor: not-allowed !important;
+    border: 1px solid #ff9999 !important;
+    opacity: 0.8;
+}
+
 .header-band {
     width: 100%;
     background-color: var(--color-dark-void);
-    background-size: cover;
-    background-position: center;
     color: var(--color-star-light);
     padding: 10px 20px;
     position: relative;
@@ -64,13 +73,6 @@ h1 {
     letter-spacing: 1px;
 }
 
-.header-band p {
-    margin: 8px 0 0 0;
-    font-size: clamp(0.9em, 2vw, 1.2em);
-    opacity: 0.85;
-    font-style: italic;
-}
-
 .animated-icons-container {
     position: absolute;
     top: 0;
@@ -88,15 +90,10 @@ h1 {
     height: 50px;
     background-color: rgba(255, 255, 255, 0.911);
     border-radius: 30%;
-    box-shadow: 0 0 8px var(--icon-color);
     opacity: 0;
-    --icon-color: var(--color-star-light);
     object-fit: contain;
+    animation: cosmicFloat 30s linear infinite;
 }
-
-.animated-icon:nth-child(3n+1) { background-color: rgba(0, 128, 0, 0.08); --icon-color: white; }
-.animated-icon:nth-child(3n+2) { background-color: rgba(192, 0, 0, 0.08); --icon-color: white; }
-.animated-icon:nth-child(3n) { background-color: rgba(147, 112, 219, 0.08); --icon-color: white; }
 
 @keyframes cosmicFloat {
     0% { transform: translateY(0) scale(0.5); opacity: 0; }
@@ -106,48 +103,13 @@ h1 {
     100% { transform: translateY(-200vh) scale(0.7); opacity: 0; }
 }
 
-.animated-icon {
-    animation: cosmicFloat 30s linear infinite;
-    filter: drop-shadow(0 0 3px var(--icon-color));
-}
-
-.anim-slow { animation-duration: 45s; }
-.anim-medium { animation-duration: 30s; }
-.anim-fast { animation-duration: 20s; }
-
-.icon-pos-A { left: 5%; top: 90%; }
-.icon-pos-B { left: 15%; top: 70%; }
-.icon-pos-C { left: 25%; top: 50%; }
-.icon-pos-D { left: 35%; top: 10%; }
-.icon-pos-E { left: 45%; top: 80%; }
-.icon-pos-F { left: 55%; top: 30%; }
-.icon-pos-G { left: 65%; top: 60%; }
-.icon-pos-H { left: 75%; top: 0%; }
-.icon-pos-I { left: 85%; top: 40%; }
-.icon-pos-J { left: 95%; top: 75%; }
-.icon-pos-K { left: 10%; top: 5%; animation-delay: 5s; }
-.icon-pos-L { left: 20%; top: 95%; animation-delay: 10s; }
-.icon-pos-M { left: 30%; top: 85%; animation-delay: 15s; }
-.icon-pos-N { left: 40%; top: 5%; animation-delay: 20s; }
-.icon-pos-O { left: 50%; top: 90%; animation-delay: 25s; }
-.icon-pos-P { left: 60%; top: 10%; animation-delay: 3s; }
-.icon-pos-Q { left: 70%; top: 70%; animation-delay: 8s; }
-.icon-pos-R { left: 80%; top: 30%; animation-delay: 13s; }
-.icon-pos-S { left: 90%; top: 5%; animation-delay: 18s; }
-.icon-pos-T { left: 3%; top: 60%; animation-delay: 23s; }
-.icon-pos-U { left: 13%; top: 20%; animation-delay: 28s; }
-.icon-pos-V { left: 23%; top: 40%; animation-delay: 2s; }
-.icon-pos-W { left: 33%; top: 70%; animation-delay: 7s; }
-.icon-pos-X { left: 43%; top: 10%; animation-delay: 12s; }
-.icon-pos-Y { left: 53%; top: 50%; animation-delay: 17s; }
-.icon-pos-Z { left: 63%; top: 90%; animation-delay: 22s; }
-.icon-pos-AA { left: 73%; top: 25%; animation-delay: 27s; }
-.icon-pos-BB { left: 83%; top: 55%; animation-delay: 1s; }
-.icon-pos-CC { left: 93%; top: 15%; animation-delay: 6s; }
-.icon-pos-DD { left: 7%; top: 45%; animation-delay: 11s; }
-.icon-pos-EE { left: 17%; top: 85%; animation-delay: 16s; }
-.icon-pos-FF { left: 27%; top: 5%; animation-delay: 21s; }
-.icon-pos-GG { left: 37%; top: 35%; animation-delay: 26s; }
+/* POSICIONES DE ICONOS (A-GG) */
+.icon-pos-A { left: 5%; top: 90%; } .icon-pos-B { left: 15%; top: 70%; }
+.icon-pos-C { left: 25%; top: 50%; } .icon-pos-D { left: 35%; top: 10%; }
+.icon-pos-E { left: 45%; top: 80%; } .icon-pos-F { left: 55%; top: 30%; }
+.icon-pos-G { left: 65%; top: 60%; } .icon-pos-H { left: 75%; top: 0%; }
+.icon-pos-I { left: 85%; top: 40%; } .icon-pos-J { left: 95%; top: 75%; }
+/* ... (Mantener todas las posiciones de icono de tu código original) ... */
 
 .container {
     background: rgba(255, 255, 255, 0.98);
@@ -162,14 +124,6 @@ h1 {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-h2 {
-    text-align: center;
-    color: var(--color-dark-void);
-    margin-bottom: 30px;
-    font-size: 1.8em;
-    font-weight: 700;
-}
-
 .input-group { margin-bottom: 25px; }
 label { display: block; color: var(--color-text-dark); font-size: 0.95em; margin-bottom: 8px; font-weight: 600; }
 
@@ -177,52 +131,40 @@ input[type="text"], input[type="tel"], input[type="date"], select {
     width: 100%;
     padding: 12px;
     background-color: #f5f8fb;
-    color: var(--color-text-dark);
     border: 1px solid #dcdfe4;
     border-radius: 8px;
     box-sizing: border-box;
-    transition: all 0.2s ease-in-out;
     font-size: 1em;
+    transition: all 0.3s ease;
 }
 
-input:focus, select:focus { border-color: var(--color-stellar-blue); outline: none; box-shadow: 0 0 0 3px rgba(93, 156, 236, 0.4); }
-
-.name-group { display: flex; gap: 20px; }
-.name-group .half-width { flex: 1; }
 .email-split-group { display: flex; }
-.email-split-group input[type="text"] { flex-grow: 1; border-top-right-radius: 0; border-bottom-right-radius: 0; border-right: none; }
-.email-split-group select { width: 130px; border-top-left-radius: 0; border-bottom-left-radius: 0; flex-shrink: 0; }
+.email-split-group input { border-radius: 8px 0 0 8px; border-right: none; }
+.email-split-group select { width: 130px; border-radius: 0 8px 8px 0; }
 
-.validation-message { margin-top: 7px; font-size: 0.9em; }
-.error-text { color: var(--color-error); font-weight: 700; }
-.success-text { color: var(--color-success); font-weight: 700; }
+.validation-message { margin-top: 10px; font-size: 0.95em; line-height: 1.4; }
+.error-text { color: var(--color-error); font-weight: 700; text-align: justify; }
 
 button[type="submit"] {
     background: linear-gradient(135deg, var(--color-stellar-blue) 0%, #3e6bbd 100%); 
-    color: var(--color-star-light);
-    padding: 14px 25px;
+    color: white;
+    padding: 14px;
     border: none;
     border-radius: 10px;
     cursor: pointer;
     width: 100%;
-    margin-top: 35px;
-    font-size: 1.2em;
+    margin-top: 20px;
+    font-size: 1.1em;
     font-weight: 700;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
     text-transform: uppercase;
-    letter-spacing: 1.5px;
 }
 
-.main-footer { background-color: #1f2937; color: #f3f4f6; padding: 20px 0; margin-top: 40px; text-align: center; width: 100%; }
-
-/* --- ESTILOS NEUTRALES PARA CUENTAS REGRESIVAS --- */
 .timers-container {
     display: flex;
     justify-content: center;
     gap: 30px;
     padding: 20px;
     background: #f1f5f9;
-    flex-wrap: wrap;
 }
 .timer-box {
     text-align: center;
@@ -232,12 +174,88 @@ button[type="submit"] {
     border-radius: 8px;
     min-width: 220px;
 }
-.timer-box h4 { margin: 0 0 10px 0; font-size: 0.8rem; letter-spacing: 1px; color: #60a5fa; }
+.timer-box h4 { margin: 0 0 10px 0; font-size: 0.8rem; color: #60a5fa; }
 .timer-box div { font-family: monospace; font-size: 1.4rem; font-weight: bold; }
 
-@media (max-width: 1000px) {
-    .container { max-width: 90%; }
-    .name-group { flex-direction: column; }
-    .email-split-group { flex-direction: column; }
-    .email-split-group select { width: 100%; margin-top: 5px; }
+.main-footer { background-color: #1f2937; color: #f3f4f6; padding: 20px 0; text-align: center; width: 100%; }
+
+/* ... (Mantener todo el CSS anterior) ... */
+
+/* --- ANIMACIÓN DE ENROJECIMIENTO PULSANTE PARA CELDAS --- */
+@keyframes warningPulse {
+    0% { background-color: #f5f8fb; box-shadow: 0 0 0px rgba(255, 0, 0, 0); }
+    50% { background-color: #fff1f1; box-shadow: 0 0 12px rgba(220, 38, 38, 0.3); border-color: #ef4444; }
+    100% { background-color: #f5f8fb; box-shadow: 0 0 0px rgba(255, 0, 0, 0); }
+}
+
+.locked-mode input, .locked-mode select {
+    animation: warningPulse 2.5s infinite ease-in-out;
+    cursor: not-allowed !important;
+}
+
+/* --- DISEÑO DEL AVISO LEGAL FORMAL --- */
+.legal-notice-box {
+    margin-top: 20px;
+    background: #fef2f2;
+    border-left: 5px solid #b91c1c;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    animation: slideInLegal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    border: 1px solid #fee2e2;
+}
+
+@keyframes slideInLegal {
+    from { opacity: 0; transform: translateY(20px); scale: 0.95; }
+    to { opacity: 1; transform: translateY(0); scale: 1; }
+}
+
+.legal-header {
+    background: #b91c1c;
+    color: white;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.legal-header h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    letter-spacing: 1.2px;
+    font-weight: 800;
+}
+
+.legal-body {
+    padding: 20px;
+    color: #450a0a;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.legal-body p { margin-bottom: 10px; }
+
+.legal-footer {
+    font-size: 0.75rem;
+    color: #991b1b;
+    font-style: italic;
+    border-top: 1px solid #fecaca;
+    padding-top: 10px;
+    margin-top: 15px !important;
+}
+
+.lock-icon {
+    font-size: 1.2rem;
+    filter: drop-shadow(0 0 5px white);
+}
+
+/* Efecto de enrojecimiento al botón en modo bloqueado */
+.locked-mode button[type="submit"] {
+    animation: pulseRedButton 2s infinite;
+}
+
+@keyframes pulseRedButton {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); filter: brightness(1.2); }
+    100% { transform: scale(1); }
 }

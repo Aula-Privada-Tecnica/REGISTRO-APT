@@ -5,7 +5,7 @@
     <title>Inscripción Office Master</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="copyright" content="Propiedad intelectual y derechos de autor © 2026. Técnico Angel Manuel Guevara Chavarría. Todos los derechos reservados.">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="index.html">
 </head>
 <body class="antialiased">
 
@@ -62,7 +62,7 @@
         </div>
     </section>
 
-    <div class="container">
+    <div class="container" id="mainContainer">
         <h2>Inscripciones 2026</h2>
         
         <form id="enrollmentForm" action="https://formspree.io/f/xnnezqjb" method="POST">
@@ -83,16 +83,16 @@
                 <div class="email-split-group">
                     <input type="text" id="email_prefix" placeholder="usuario" required>
                     <select id="email_domain">
-                            <option value="@outlook.es">@outlook.es</option>
-                            <option value="@outlook.com">@outlook.com</option>
-                            <option value="@gmail.com">@gmail.com</option>
-                            <option value="@hotmail.com">@hotmail.com</option>
-                            <option value="@yahoo.com">@yahoo.com</option>
-                            <option value="@icloud.com">@icloud.com</option>
-                            <option value="@protonmail.com">@protonmail.com</option>
-                            <option value="@hotmail.es">@hotmail.es</option>
-                            <option value="@gmail.mx">@gmail.mx</option>
-                            <option value="@yahoo.com.mx">@yahoo.com.mx</option> 
+                        <option value="@outlook.es">@outlook.es</option>
+                        <option value="@outlook.com">@outlook.com</option>
+                        <option value="@gmail.com">@gmail.com</option>
+                        <option value="@hotmail.com">@hotmail.com</option>
+                        <option value="@yahoo.com">@yahoo.com</option>
+                        <option value="@icloud.com">@icloud.com</option>
+                        <option value="@protonmail.com">@protonmail.com</option>
+                        <option value="@hotmail.es">@hotmail.es</option>
+                        <option value="@gmail.mx">@gmail.mx</option>
+                        <option value="@yahoo.com.mx">@yahoo.com.mx</option> 
                     </select>
                 </div>
                 <input type="hidden" id="full_email" name="_replyto">
@@ -122,8 +122,7 @@
 
             <div class="input-group" id="toolsGroup" style="display: none;">
                 <label for="herramienta_especifica">Dame la herramienta específica a enfocar:</label>
-                <select id="herramienta_especifica" name="herramienta_especifica" required>
-                    </select>
+                <select id="herramienta_especifica" name="herramienta_especifica" required></select>
             </div>
 
             <div class="input-group">
@@ -150,6 +149,5 @@
     </footer>
 
     <script src="script.js"></script>
-
 </body>
 </html>

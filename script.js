@@ -55,11 +55,14 @@ const emailPrefix = document.getElementById('email_prefix');
 const emailDomain = document.getElementById('email_domain');
 const fullEmail = document.getElementById('full_email');
 
-// Variable global para controlar el estado de tiempo
 let isRegistrationClosed = false;
 
 // --- FUNCIONES DE EMAIL ---
-function updateFullEmail() { fullEmail.value = emailPrefix.value + emailDomain.value; }
+function updateFullEmail() { 
+    if (emailPrefix && emailDomain && fullEmail) {
+        fullEmail.value = emailPrefix.value + emailDomain.value; 
+    }
+}
 emailPrefix.addEventListener('input', updateFullEmail);
 emailDomain.addEventListener('change', updateFullEmail);
 
@@ -81,18 +84,16 @@ function updateTools() {
             option.textContent = tool.text;
             herramientaSelect.appendChild(option);
         });
-        herramientaSelect.value = options[0].value;
     }
 }
 
 // --- VALIDACIONES ---
 function checkLearningType() {
-    if (isRegistrationClosed) return; // Prioridad al cierre por tiempo
+    if (isRegistrationClosed) return;
 
     if (tipoAprendizaje.value === 'Gratuita') {
         learningTypeMessage.textContent = "¡Lo siento, pero para la clase gratuita, te debes de comunicar con el fundador!";
-        learningTypeMessage.classList.add('error-text');
-        learningTypeMessage.classList.remove('success-text');
+        learningTypeMessage.className = "validation-message error-text";
         submitButton.disabled = true;
         submitButton.textContent = "Contáctame para tu clase gratuita";
     } else {
@@ -134,52 +135,18 @@ function validateDate() {
 
 function validateForm() {
     if (isRegistrationClosed) return false;
-    
     const isPhoneValid = validatePhone();
     const isDateValid = validateDate();
-    const isLearningTypeValid = tipoAprendizaje.value !== 'Gratuita';
+    const isLearningTypeValid = tipoAprendizaje.value !== 'Gratuita' && tipoAprendizaje.value !== "";
     const canSubmit = isPhoneValid && isDateValid && isLearningTypeValid && form.checkValidity();
-    
     submitButton.disabled = !canSubmit;
     return canSubmit;
 }
 
 telefonoInput.addEventListener('input', handlePhoneInput);
+fechaInicioInput.addEventListener('input', validateForm);
 
-// --- MANEJO DE ENVÍO ---
-function showTempSuccessMessage() {
-    learningTypeMessage.textContent = "✅ ¡Inscripción enviada con éxito!";
-    learningTypeMessage.className = "validation-message success-text";
-    submitButton.disabled = true;
-    submitButton.textContent = "¡Enviado!";
-
-    setTimeout(() => {
-        if (!isRegistrationClosed) {
-            learningTypeMessage.textContent = "";
-            submitButton.disabled = false;
-            submitButton.textContent = "Enviar mi inscripción";
-        }
-    }, 5000);
-}
-
-form.addEventListener('submit', function(event) {
-    event.preventDefault();
-    if (isRegistrationClosed) {
-        alert("El periodo de inscripción ha finalizado.");
-        return false;
-    }
-    if (!validateForm()) return false;
-    
-    submitButton.disabled = true;
-    submitButton.textContent = "Enviando...";
-
-    fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' }})
-    .then(response => {
-        if (response.ok) { form.reset(); telefonoInput.value = '+502 '; showTempSuccessMessage(); }
-    }).catch(() => { showTempSuccessMessage(); });
-});
-
-// --- LÓGICA DE CUENTAS REGRESIVAS Y PROHIBICIÓN ---
+// --- CUENTAS REGRESIVAS Y BLOQUEO ---
 function startCountdown(targetDate, elementId) {
     const target = new Date(targetDate).getTime();
     
@@ -188,9 +155,10 @@ function startCountdown(targetDate, elementId) {
         const diff = target - now;
         const element = document.getElementById(elementId);
 
+        if (!element) return;
+
         if (diff <= 0) {
             element.innerHTML = "¡EVENTO INICIADO!";
-            // Si el countdown de registro llega a cero, bloqueamos el formulario
             if (elementId === 'countdown-registro') {
                 isRegistrationClosed = true;
                 lockFormByTime();
@@ -210,23 +178,47 @@ function startCountdown(targetDate, elementId) {
 function lockFormByTime() {
     submitButton.disabled = true;
     submitButton.textContent = "Inscripciones Cerradas";
-    submitButton.style.backgroundColor = "#ccc"; // Color visual de bloqueo
-    learningTypeMessage.textContent = "El tiempo de registro ha expirado. ¡Gracias por tu interés!";
+    submitButton.style.backgroundColor = "#666";
+    learningTypeMessage.textContent = "El periodo de inscripción ha finalizado según el contador.";
     learningTypeMessage.className = "validation-message error-text";
     
-    // Deshabilitar todos los inputs para mayor seguridad visual
     const inputs = form.querySelectorAll('input, select, button');
     inputs.forEach(input => input.disabled = true);
 }
 
-// --- CARGA INICIAL ---
+// --- ENVÍO DE FORMULARIO ---
+form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    if (isRegistrationClosed) return;
+    if (!validateForm()) return;
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Enviando...";
+
+    fetch(form.action, { 
+        method: 'POST', 
+        body: new FormData(form), 
+        headers: { 'Accept': 'application/json' }
+    })
+    .then(response => {
+        if (response.ok) { 
+            form.reset(); 
+            telefonoInput.value = '+502 '; 
+            learningTypeMessage.textContent = "✅ ¡Inscripción enviada con éxito!";
+            learningTypeMessage.className = "validation-message success-text";
+            submitButton.textContent = "¡Enviado!";
+        }
+    }).catch(() => {
+        alert("Hubo un error al enviar. Inténtalo de nuevo.");
+        submitButton.disabled = false;
+        submitButton.textContent = "Enviar mi inscripción";
+    });
+});
+
 window.onload = function() {
     updateTools();
-    checkLearningType();
     updateFullEmail();
     telefonoInput.value = '+502 ';
-    
-    // Configuración de fechas y disparadores de bloqueo
     startCountdown('December 25, 2025 20:00:00', 'countdown-registro');
     startCountdown('December 28, 2025 13:00:00', 'countdown-clases');
 }

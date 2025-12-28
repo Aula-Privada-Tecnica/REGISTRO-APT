@@ -28,21 +28,6 @@ body {
     user-select: none;
 }
 
-/* --- ANIMACIÓN DE ENROJECIMIENTO (PULSO) --- */
-@keyframes warningPulse {
-    0% { background-color: #f5f8fb; box-shadow: 0 0 0px rgba(255, 0, 0, 0); }
-    50% { background-color: #ffebeb; box-shadow: 0 0 10px rgba(255, 51, 51, 0.4); border-color: var(--color-warning-red); }
-    100% { background-color: #f5f8fb; box-shadow: 0 0 0px rgba(255, 0, 0, 0); }
-}
-
-/* Estado de bloqueo aplicado a las celdas */
-.locked-mode input, .locked-mode select {
-    animation: warningPulse 2s infinite ease-in-out;
-    cursor: not-allowed !important;
-    border: 1px solid #ff9999 !important;
-    opacity: 0.8;
-}
-
 .header-band {
     width: 100%;
     background-color: var(--color-dark-void);
@@ -103,20 +88,45 @@ h1 {
     100% { transform: translateY(-200vh) scale(0.7); opacity: 0; }
 }
 
-/* POSICIONES DE ICONOS (A-GG) */
 .icon-pos-A { left: 5%; top: 90%; } .icon-pos-B { left: 15%; top: 70%; }
 .icon-pos-C { left: 25%; top: 50%; } .icon-pos-D { left: 35%; top: 10%; }
 .icon-pos-E { left: 45%; top: 80%; } .icon-pos-F { left: 55%; top: 30%; }
 .icon-pos-G { left: 65%; top: 60%; } .icon-pos-H { left: 75%; top: 0%; }
 .icon-pos-I { left: 85%; top: 40%; } .icon-pos-J { left: 95%; top: 75%; }
-/* ... (Mantener todas las posiciones de icono de tu código original) ... */
+.icon-pos-K { left: 10%; top: 85%; } .icon-pos-L { left: 20%; top: 65%; }
+.icon-pos-M { left: 30%; top: 45%; } .icon-pos-N { left: 40%; top: 25%; }
+.icon-pos-O { left: 50%; top: 85%; } .icon-pos-P { left: 60%; top: 15%; }
+.icon-pos-Q { left: 70%; top: 55%; } .icon-pos-R { left: 80%; top: 35%; }
+.icon-pos-S { left: 90%; top: 95%; } .icon-pos-T { left: 5%; top: 20%; }
+.icon-pos-U { left: 15%; top: 40%; } .icon-pos-V { left: 25%; top: 60%; }
+.icon-pos-W { left: 35%; top: 80%; } .icon-pos-X { left: 45%; top: 10%; }
+.icon-pos-Y { left: 55%; top: 90%; } .icon-pos-Z { left: 65%; top: 20%; }
+.icon-pos-AA { left: 75%; top: 50%; } .icon-pos-BB { left: 85%; top: 70%; }
+.icon-pos-CC { left: 95%; top: 30%; } .icon-pos-DD { left: 40%; top: 50%; }
+.icon-pos-EE { left: 50%; top: 20%; } .icon-pos-FF { left: 60%; top: 70%; }
+.icon-pos-GG { left: 70%; top: 10%; }
+
+.delay-1s { animation-delay: 1s; } .delay-2s { animation-delay: 2s; }
+.delay-3s { animation-delay: 3s; } .delay-4s { animation-delay: 4s; }
+.delay-5s { animation-delay: 5s; } .delay-6s { animation-delay: 6s; }
+.delay-7s { animation-delay: 7s; } .delay-8s { animation-delay: 8s; }
+.delay-9s { animation-delay: 9s; } .delay-10s { animation-delay: 10s; }
+.delay-11s { animation-delay: 11s; } .delay-12s { animation-delay: 12s; }
+.delay-13s { animation-delay: 13s; } .delay-14s { animation-delay: 14s; }
+.delay-15s { animation-delay: 15s; } .delay-16s { animation-delay: 16s; }
+.delay-17s { animation-delay: 17s; } .delay-18s { animation-delay: 18s; }
+.delay-19s { animation-delay: 19s; } .delay-20s { animation-delay: 20s; }
+.delay-21s { animation-delay: 21s; } .delay-22s { animation-delay: 22s; }
+.delay-23s { animation-delay: 23s; } .delay-24s { animation-delay: 24s; }
+.delay-25s { animation-delay: 25s; } .delay-26s { animation-delay: 26s; }
+.delay-27s { animation-delay: 27s; }
 
 .container {
     background: rgba(255, 255, 255, 0.98);
     padding: 35px 45px;
     border-radius: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) inset, 0 5px 30px rgba(93, 156, 236, 0.5); 
-    width: 100%;
+    width: 95%;
     max-width: 580px;
     margin: 40px auto; 
     position: relative; 
@@ -124,7 +134,8 @@ h1 {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.input-group { margin-bottom: 25px; }
+.name-group { display: flex; gap: 20px; }
+.input-group { margin-bottom: 25px; width: 100%; }
 label { display: block; color: var(--color-text-dark); font-size: 0.95em; margin-bottom: 8px; font-weight: 600; }
 
 input[type="text"], input[type="tel"], input[type="date"], select {
@@ -135,127 +146,42 @@ input[type="text"], input[type="tel"], input[type="date"], select {
     border-radius: 8px;
     box-sizing: border-box;
     font-size: 1em;
-    transition: all 0.3s ease;
 }
 
 .email-split-group { display: flex; }
-.email-split-group input { border-radius: 8px 0 0 8px; border-right: none; }
-.email-split-group select { width: 130px; border-radius: 0 8px 8px 0; }
+.email-split-group input { border-radius: 8px 0 0 8px; border-right: none; flex: 1; }
+.email-split-group select { width: 140px; border-radius: 0 8px 8px 0; }
 
-.validation-message { margin-top: 10px; font-size: 0.95em; line-height: 1.4; }
+.validation-message { margin-top: 10px; font-size: 0.95em; }
 .error-text { color: var(--color-error); font-weight: 700; text-align: justify; }
+.success-text { color: var(--color-success); font-weight: 700; }
 
 button[type="submit"] {
     background: linear-gradient(135deg, var(--color-stellar-blue) 0%, #3e6bbd 100%); 
-    color: white;
-    padding: 14px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 20px;
-    font-size: 1.1em;
-    font-weight: 700;
-    text-transform: uppercase;
+    color: white; padding: 14px; border: none; border-radius: 10px;
+    cursor: pointer; width: 100%; font-size: 1.1em; font-weight: 700; text-transform: uppercase;
 }
 
-.timers-container {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    padding: 20px;
-    background: #f1f5f9;
+.timers-container { display: flex; justify-content: center; gap: 20px; padding: 20px; background: #f1f5f9; flex-wrap: wrap; }
+.timer-box { text-align: center; background: #09042c; color: white; padding: 15px; border-radius: 1vh; min-width: 200px; box-shadow: 1vh 1vh 1vh 0.5vh var(--color-nebula); }
+.timer-box div { font-family: tahoma; font-size: 1.3rem; font-weight: bold; background-color: white; border-radius: 1vh; color: #09042c; padding: 1vh; }
+
+.main-footer { background-color: #1f2937; color: #f3f4f6; padding: 30px 10px; text-align: center; width: 100%; }
+
+@media (max-width: 600px) {
+    .name-group { flex-direction: column; gap: 0; }
+    .email-split-group { flex-direction: column; }
+    .email-split-group input { border-radius: 8px; border-right: 1px solid #dcdfe4; margin-bottom: 10px; }
+    .email-split-group select { width: 100%; border-radius: 8px; }
+    .container { padding: 25px 20px; }
+    h1 { font-size: 1.6em; }
 }
-.timer-box {
-    text-align: center;
-    background: #1f2937;
-    color: white;
-    padding: 15px 25px;
-    border-radius: 8px;
-    min-width: 220px;
-}
-.timer-box h4 { margin: 0 0 10px 0; font-size: 0.8rem; color: #60a5fa; }
-.timer-box div { font-family: monospace; font-size: 1.4rem; font-weight: bold; }
 
-.main-footer { background-color: #1f2937; color: #f3f4f6; padding: 20px 0; text-align: center; width: 100%; }
-
-/* ... (Mantener todo el CSS anterior) ... */
-
-/* --- ANIMACIÓN DE ENROJECIMIENTO PULSANTE PARA CELDAS --- */
 @keyframes warningPulse {
-    0% { background-color: #f5f8fb; box-shadow: 0 0 0px rgba(255, 0, 0, 0); }
-    50% { background-color: #fff1f1; box-shadow: 0 0 12px rgba(220, 38, 38, 0.3); border-color: #ef4444; }
-    100% { background-color: #f5f8fb; box-shadow: 0 0 0px rgba(255, 0, 0, 0); }
+    0%, 100% { background-color: #f5f8fb; }
+    50% { background-color: #fff1f1; border-color: #ef4444; }
 }
-
-.locked-mode input, .locked-mode select {
-    animation: warningPulse 2.5s infinite ease-in-out;
-    cursor: not-allowed !important;
-}
-
-/* --- DISEÑO DEL AVISO LEGAL FORMAL --- */
-.legal-notice-box {
-    margin-top: 20px;
-    background: #fef2f2;
-    border-left: 5px solid #b91c1c;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    animation: slideInLegal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    border: 1px solid #fee2e2;
-}
-
-@keyframes slideInLegal {
-    from { opacity: 0; transform: translateY(20px); scale: 0.95; }
-    to { opacity: 1; transform: translateY(0); scale: 1; }
-}
-
-.legal-header {
-    background: #b91c1c;
-    color: white;
-    padding: 12px 15px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.legal-header h3 {
-    margin: 0;
-    font-size: 0.9rem;
-    letter-spacing: 1.2px;
-    font-weight: 800;
-}
-
-.legal-body {
-    padding: 20px;
-    color: #450a0a;
-    font-size: 0.9rem;
-    line-height: 1.6;
-}
-
-.legal-body p { margin-bottom: 10px; }
-
-.legal-footer {
-    font-size: 0.75rem;
-    color: #991b1b;
-    font-style: italic;
-    border-top: 1px solid #fecaca;
-    padding-top: 10px;
-    margin-top: 15px !important;
-}
-
-.lock-icon {
-    font-size: 1.2rem;
-    filter: drop-shadow(0 0 5px white);
-}
-
-/* Efecto de enrojecimiento al botón en modo bloqueado */
-.locked-mode button[type="submit"] {
-    animation: pulseRedButton 2s infinite;
-}
-
-@keyframes pulseRedButton {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.02); filter: brightness(1.2); }
-    100% { transform: scale(1); }
-}
+.locked-mode input, .locked-mode select { animation: warningPulse 2.5s infinite ease-in-out; cursor: not-allowed !important; }
+.legal-notice-box { margin-top: 20px; background: #fef2f2; border-left: 5px solid #b91c1c; border-radius: 8px; border: 1px solid #fee2e2; }
+.legal-header { background: #b91c1c; color: white; padding: 10px; display: flex; align-items: center; gap: 10px; }
+.legal-body { padding: 15px; font-size: 0.85rem; }

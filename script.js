@@ -128,7 +128,7 @@ function startCountdown(targetDate, elementId) {
         const element = document.getElementById(elementId);
         if (!element) return;
         if (diff <= 0) {
-            element.innerHTML = "INICIADO";
+            element.innerHTML = "FINALIZADO";
             if (elementId === 'countdown-registro') lockFormByTime();
             clearInterval(interval);
             return;
@@ -141,27 +141,24 @@ function startCountdown(targetDate, elementId) {
     }, 1000);
 }
 
-// ACTUALIZACIÓN DE BLOQUEO CON ANIMACIÓN FORMAL
 function lockFormByTime() {
     if (isRegistrationClosed) return;
     isRegistrationClosed = true;
     mainContainer.classList.add('locked-mode');
-    
     submitButton.disabled = true;
     submitButton.textContent = "SISTEMA CERRADO";
     submitButton.style.background = "#7f1d1d";
 
-    // Reemplazo del mensaje por una estructura de aviso formal con animación
     learningTypeMessage.innerHTML = `
         <div class="legal-notice-box">
             <div class="legal-header">
-                <span class="lock-icon"></span>
+                <span class="lock-icon">🛡️</span>
                 <h3>PROTOCOLO DE RESTRICCIÓN ACTIVO</h3>
             </div>
             <div class="legal-body">
-                <p>Se notifica formalmente que el periodo de inscripción para el <strong>Ciclo Técnico 2026</strong> ha concluido de forma definitiva.</p>
-                <p>Por disposición de la administración del <em>Aula Privada Técnica</em>, el sistema ha bloqueado la recepción de nuevos registros para garantizar la integridad del cupo establecido.</p>
-                <p class="legal-footer">Cualquier intento de alteración será registrado por el servidor.</p>
+                <p>🚨 Se notifica formalmente que el periodo de inscripción para el <strong>Ciclo Técnico 2026</strong> ha concluido de forma definitiva. 🔐</p>
+                <p>Por disposición de la administración del <em>Aula Privada Técnica</em>, el sistema ha bloqueado la recepción de nuevos registros para garantizar la integridad del cupo establecido. 🔏</p>
+                <p class="legal-footer">Cualquier intento de alteración será registrado por el servidor. ⚠️</p>
             </div>
         </div>
     `;
@@ -182,7 +179,6 @@ form.addEventListener('submit', function(e) {
 window.onload = function() {
     updateTools(); updateFullEmail();
     telefonoInput.value = '+502 ';
-    startCountdown('December 25, 2025 20:00:00', 'countdown-registro');
-    startCountdown('December 28, 2025 13:00:00', 'countdown-clases');
+    startCountdown('December 28, 2025 13:00:00', 'countdown-registro');
+    startCountdown('December 31, 2025 15:30:45', 'countdown-clases');
 }
-
